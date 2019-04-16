@@ -2,16 +2,20 @@ package thanos.skoulopoulos.gr.coappproject;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
@@ -24,7 +28,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public TextView departureDate;
     public TextView arrivalDate;
-
+    public EditText passNumber;
+    public Button proceedButton;
     public DatePickerDialog.OnDateSetListener dateSetListener;
     public static final String TAG = "MainActivity";
     public int selection = 0;
@@ -45,12 +50,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     double factorA = 0.0;
     double factorS = 0.0;
     double factorP = 0.0;
+    double factorC = 0.0;
+    double finalFactor=0.0;
+   // double factorT = 0.0;
     private Spinner ageSpinner;
     private static final String[] agePaths = {"child", "adult", "senior"};
     private Spinner seatSpinner;
     private static final String[] seatPaths = {"basic", "premium", "platinum"};
-    private Spinner paySpinner;
-    private static final String[] payPaths = {"cash, wire transfer, credit-card"};
+    //private Spinner paySpinner;
+    //private static final String[] payPaths = {"Domestic, wire transfer, credit-card"};
 
 
     @Override
@@ -61,15 +69,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
+        passNumber =(EditText)findViewById(R.id.pass_number);
+        proceedButton=(Button)findViewById(R.id.proceed_button);
         departureDate = findViewById(R.id.tv_departure_date);
         departureDate.setOnClickListener(this);
         arrivalDate = findViewById(R.id.tv_arrival_date);
         arrivalDate.setOnClickListener(this);
+        proceedButton.setOnClickListener(this);
 
 
         ageSpinner = (Spinner) findViewById(R.id.spinner_travel_as);
         seatSpinner = (Spinner) findViewById(R.id.spinner_seat);
-        paySpinner= (Spinner) findViewById(R.id.spinner_pay);
+        //paySpinner= (Spinner) findViewById(R.id.spinner_pay);
 
         ArrayAdapter<String>adapterA = new ArrayAdapter<String>(MainActivity.this,
                 android.R.layout.simple_spinner_item,agePaths);
@@ -83,15 +94,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         adapterS.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         seatSpinner.setAdapter(adapterS);
 
-        ArrayAdapter<String>adapterP = new ArrayAdapter<String>(MainActivity.this,
-                android.R.layout.simple_spinner_item,payPaths);
-
-        adapterP.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        paySpinner.setAdapter(adapterP);
+//        ArrayAdapter<String>adapterP = new ArrayAdapter<String>(MainActivity.this,
+//                android.R.layout.simple_spinner_item,payPaths);
+//
+//        adapterP.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        paySpinner.setAdapter(adapterP);
 
         ageSpinner.setOnItemSelectedListener(spinListener);
         seatSpinner.setOnItemSelectedListener(spinListener);
-        paySpinner.setOnItemSelectedListener(spinListener);
+        //paySpinner.setOnItemSelectedListener(spinListener);
 
 
 
@@ -132,22 +143,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     }
                     break;
-                case R.id.spinner_pay:
-                    Toast.makeText(MainActivity.this, "Spinner Seat", Toast.LENGTH_LONG).show();
-                    switch (position) {
-                        case 0: factorP=1;
-                            Log.d(TAG, "onItemSelected:Ca$h");
-                            break;
-                        case 1: factorP=1;
-                            Log.d(TAG, "onItemSelected: wire_transfer");
-                            break;
-                        case 2: factorP=1;
-                            Log.d(TAG, "onItemSelected: credit-card");
-
-                            break;
-
-                    }
-                    break;
+//
            }
         }
 
@@ -156,10 +152,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
     };
-
-
-
-
 
     @Override
     public void onClick(View view) {
@@ -171,7 +163,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 selection=1;
                 calSelection=true;
 
-
                 break;
 
                 case R.id.tv_arrival_date:
@@ -181,11 +172,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 selection=2;
                 calSelection2=true;
 
-
                 break;
 
+               case R.id.proceed_button:
 
+                   passengers();
+                  multiplication();
+                   Log.d(TAG, "onClick: $$MONEY= "+finalFactor);
+//                   Intent intent = new Intent(this,ResultActivity.class);
+//                   intent.putExtra("total_money",finalFactor);
+//                   startActivity(intent);
 
+                break;
 
         }
 
@@ -222,21 +220,21 @@ public void dateFactor() {
     if (calSelection == true && calSelection2 == true) {
 
         //ONION TREE :(
-        if (day2 < day1) {
-            if (month2 < month1) {
-                if (year2 < year1) {
+        if (day2 <= day1) {
+            if (month2 <= month1) {
+                if (year2 <= year1) {
                     Log.d(TAG, "dateFactor: NO VALID DATES!");
                 } else {
                     Log.d(TAG, "Departure: %day: " + day1 + " month: " + month1 + " year " + year1);
                     Log.d(TAG, "Arrival: %day2: " + day2 + " month2: " + month2 + " year2 " + year2);
 
 
-                    if (month >= 3 && month <= 9) {
+                    if ((month >= 3 && month <= 9) &&(month2 >= 3 && month2 <= 9)) {
                         Log.d(TAG, "SUMMER$%^");
-                        factorA = 1.2;
+                        factorC = 1.2;
                     } else {
                         Log.d(TAG, "WINTER)))))");
-                        factorA = 1.0;
+                        factorC = 1.0;
                     }
                 }
 
@@ -244,12 +242,21 @@ public void dateFactor() {
         }
     }
 }
+public void passengers(){
+         String value= passNumber.getText().toString();
+         int passengerValue=Integer.parseInt(value);
 
+         if(passengerValue<=1){factorP=1.0;}
+         else if(passengerValue<=5){factorP=0.85;}
+         else if(passengerValue<=50){factorP=0.7;}//It can be abjusted...Not more than airplane seats!
+    else{Toast.makeText(MainActivity.this, "WRONG PASSENGER NUMBER", Toast.LENGTH_SHORT).show();}
+}
 
-public void multipliction(){
-
-
-
+public void multiplication(){
+    Log.d(TAG, "multiplication: ----> FACTOR A "+factorA);
+    Log.d(TAG, "multiplication: ----> FACTOR C "+factorC);
+    Log.d(TAG, "multiplication: ----> FACTOR S "+factorS);
+        finalFactor=factorA*factorC*factorS;
 
 }
 
