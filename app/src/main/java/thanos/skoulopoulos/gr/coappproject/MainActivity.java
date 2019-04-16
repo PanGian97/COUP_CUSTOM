@@ -24,6 +24,9 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
+import static thanos.skoulopoulos.gr.coappproject.Methods.dateFactor;
+import static thanos.skoulopoulos.gr.coappproject.Methods.passengers;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
 
     public TextView departureDate;
@@ -33,19 +36,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public DatePickerDialog.OnDateSetListener dateSetListener;
     public static final String TAG = "MainActivity";
     public int selection = 0;
-    public boolean calSelection=false;
-    public boolean calSelection2=false;
+    boolean calSelection=false;
+     boolean calSelection2=false;
     String date = "";
     String date2 = "";
+    String finalFactorAsString="";
+
     int day;
     int month;
     int year;
     int day2;
     int month2;
     int year2;
-    int day1;
-    int month1;
-    int year1;
     double factorD = 0.0;
     double factorA = 0.0;
     double factorS = 0.0;
@@ -176,12 +178,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                case R.id.proceed_button:
 
-                   passengers();
-                  multiplication();
+                   passengers(factorP,passNumber);
+                  Methods.multiplication(finalFactor,factorA,factorC,factorS);
                    Log.d(TAG, "onClick: $$MONEY= "+finalFactor);
-//                   Intent intent = new Intent(this,ResultActivity.class);
-//                   intent.putExtra("total_money",finalFactor);
-//                   startActivity(intent);
+                   finalFactorAsString = Double.toString(finalFactor);
+                   Intent intent = new Intent(this,ResultActivity.class);
+                   intent.putExtra("total_money",finalFactorAsString);
+                   startActivity(intent);
 
                 break;
 
@@ -202,7 +205,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                this.day = day;
                 this.month = month;
                 this.year = year;
-                dateFactor();
+                dateFactor(calSelection,calSelection2,factorC,month,month2);
                 break;
             case 2 :
                 date2 = day + "/" + month +"/" + year;
@@ -210,55 +213,50 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 day2 = day;
                 month2 = month;
                 year2 = year;
-               dateFactor();
+                dateFactor(calSelection,calSelection2,factorC,month,month2);
 
                 break;
     }
 
 }
-public void dateFactor() {
-    if (calSelection == true && calSelection2 == true) {
-
-        //ONION TREE :(
-        if (day2 <= day1) {
-            if (month2 <= month1) {
-                if (year2 <= year1) {
-                    Log.d(TAG, "dateFactor: NO VALID DATES!");
-                } else {
-                    Log.d(TAG, "Departure: %day: " + day1 + " month: " + month1 + " year " + year1);
-                    Log.d(TAG, "Arrival: %day2: " + day2 + " month2: " + month2 + " year2 " + year2);
-
-
-                    if ((month >= 3 && month <= 9) &&(month2 >= 3 && month2 <= 9)) {
-                        Log.d(TAG, "SUMMER$%^");
-                        factorC = 1.2;
-                    } else {
-                        Log.d(TAG, "WINTER)))))");
-                        factorC = 1.0;
-                    }
-                }
-
-            }
-        }
-    }
-}
-public void passengers(){
-         String value= passNumber.getText().toString();
-         int passengerValue=Integer.parseInt(value);
-
-         if(passengerValue<=1){factorP=1.0;}
-         else if(passengerValue<=5){factorP=0.85;}
-         else if(passengerValue<=50){factorP=0.7;}//It can be abjusted...Not more than airplane seats!
-    else{Toast.makeText(MainActivity.this, "WRONG PASSENGER NUMBER", Toast.LENGTH_SHORT).show();}
-}
-
-public void multiplication(){
-    Log.d(TAG, "multiplication: ----> FACTOR A "+factorA);
-    Log.d(TAG, "multiplication: ----> FACTOR C "+factorC);
-    Log.d(TAG, "multiplication: ----> FACTOR S "+factorS);
-        finalFactor=factorA*factorC*factorS;
-
-}
+//public void dateFactor() {
+//    if (calSelection == true && calSelection2 == true) {
+//
+//
+//
+//
+//                Log.d(TAG, "Departure: %day: " + day + " month: " + month + " year " + year);
+//                Log.d(TAG, "Arrival: %day2: " + day2 + " month2: " + month2 + " year2 " + year2);
+//
+//
+//                if ((month >= 3 && month <= 9) && (month2 >= 3 && month2 <= 9)) {
+//                    Log.d(TAG, "SUMMER$%^");
+//                    factorC = 1.2;
+//                } else {
+//                    Log.d(TAG, "WINTER)))))");
+//                    factorC = 1.0;
+//                }
+//
+//    }
+//
+//}
+//public void passengers(){
+//         String value= passNumber.getText().toString();
+//         int passengerValue=Integer.parseInt(value);
+//
+//         if(passengerValue<=1){factorP=1.0;}
+//         else if(passengerValue<=5){factorP=0.85;}
+//         else if(passengerValue<=50){factorP=0.7;}//It can be abjusted...Not more than airplane seats!
+//    else{Toast.makeText(MainActivity.this, "WRONG PASSENGER NUMBER", Toast.LENGTH_SHORT).show();}
+//}
+//
+//public void multiplication(){
+//    Log.d(TAG, "multiplication: ----> FACTOR A "+factorA);
+//    Log.d(TAG, "multiplication: ----> FACTOR C "+factorC);
+//    Log.d(TAG, "multiplication: ----> FACTOR S "+factorS);
+//        finalFactor=factorA*factorC*factorS;
+//
+//}
 
 
 
