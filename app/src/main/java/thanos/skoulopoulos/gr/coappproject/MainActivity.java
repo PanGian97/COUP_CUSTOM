@@ -28,6 +28,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public DatePickerDialog.OnDateSetListener dateSetListener;
     public static final String TAG = "MainActivity";
     public int selection = 0;
+    public boolean calSelection=false;
+    public boolean calSelection2=false;
     String date = "";
     String date2 = "";
     int day;
@@ -36,6 +38,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int day2;
     int month2;
     int year2;
+    int day1;
+    int month1;
+    int year1;
     double factorD = 0.0;
     double factorA = 0.0;
     double factorS = 0.0;
@@ -164,6 +169,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 CalendarPicker calendarPicker = new CalendarPicker(((MainActivity)view.getContext()));
                 calendarPicker.setDate(view.getContext());
                 selection=1;
+                calSelection=true;
+
+
                 break;
 
                 case R.id.tv_arrival_date:
@@ -171,7 +179,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 CalendarPicker calendarPickerA = new CalendarPicker(((MainActivity)view.getContext()));
                 calendarPickerA.setDate(view.getContext());
                 selection=2;
+                calSelection2=true;
+
+
                 break;
+
+
+
 
         }
 
@@ -180,18 +194,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onDateSet(DatePicker datePicker, int day, int month, int year) {
 
-           this.day = day;
-           this.month = month;
-           this.year = year;
+
 
         switch (selection){
 
             case 1 :
         date = day + "/" + month +"/" + year;
         departureDate.setText("Departure Date: " + date);
-                this.day = day;
+               this.day = day;
                 this.month = month;
                 this.year = year;
+                dateFactor();
                 break;
             case 2 :
                 date2 = day + "/" + month +"/" + year;
@@ -199,33 +212,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 day2 = day;
                 month2 = month;
                 year2 = year;
+               dateFactor();
+
                 break;
     }
-    dateFactor();
-}
-public void dateFactor(){
-        int dateNum = day*month*year;
-        int dateNum2 = day*month*year;
-        int dateFact = dateNum2-dateNum;
-
-//        if(dateFact<=0){
-//            Log.d(TAG, "dateFactor: NO VALID DATES!");
-//        }
-    if(dateFact >=15 ){
-        Log.d(TAG, "dateFactor:$$$$0.8");
-        factorD=0.8;
-    }
-    else if(dateFact >=7 ){
-        Log.d(TAG, "dateFactor:$$$$0.9");
-        factorD=0.9;
-    }
-    else if (dateFact >=0 )
-    {
-        Log.d(TAG, "1");
-        factorD=1.0;
-    }
 
 }
+public void dateFactor() {
+    if (calSelection == true && calSelection2 == true) {
+
+        //ONION TREE :(
+        if (day2 < day1) {
+            if (month2 < month1) {
+                if (year2 < year1) {
+                    Log.d(TAG, "dateFactor: NO VALID DATES!");
+                } else {
+                    Log.d(TAG, "Departure: %day: " + day1 + " month: " + month1 + " year " + year1);
+                    Log.d(TAG, "Arrival: %day2: " + day2 + " month2: " + month2 + " year2 " + year2);
+
+
+                    if (month >= 3 && month <= 9) {
+                        Log.d(TAG, "SUMMER$%^");
+                        factorA = 1.2;
+                    } else {
+                        Log.d(TAG, "WINTER)))))");
+                        factorA = 1.0;
+                    }
+                }
+
+            }
+        }
+    }
+}
+
+
 public void multipliction(){
 
 
@@ -236,3 +256,4 @@ public void multipliction(){
 
 
 }
+
