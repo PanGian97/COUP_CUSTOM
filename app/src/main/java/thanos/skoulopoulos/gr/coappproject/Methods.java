@@ -2,18 +2,18 @@ package thanos.skoulopoulos.gr.coappproject;
 
 import android.util.Log;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import static thanos.skoulopoulos.gr.coappproject.MainActivity.TAG;
 
 public class Methods {
 
-    public static double dateFactor(boolean calSelection, boolean calSelection2, double factorC, int month, int month2) {
-        if (calSelection == true && calSelection2 == true) {
+    public static double dateFactor(int month, int month2) {
+        double factorC =0.0;
 
 //            Log.d(TAG, "Departure: %day: " + day + " month: " + month + " year " + year);
 //            Log.d(TAG, "Arrival: %day2: " + day2 + " month2: " + month2 + " year2 " + year2);
-            if ((month >= 3 && month <= 9) && (month2 >= 3 && month2 <= 9)) {
+
+        if ((month >= 3 && month <= 9) && (month2 >= 3 && month2 <= 9)) {
                 Log.d(TAG, "SUMMER$%^");
                 factorC = 1.2;
             } else {
@@ -21,12 +21,12 @@ public class Methods {
                 factorC = 1.0;
             }
 
-        }
         return factorC;
 
     }
 
-    public static double passengers(double factorP, EditText passNumber) {
+    public static double passengers( EditText passNumber) {
+        double factorP=0.0;
         String value = passNumber.getText().toString();
         int passengerValue = Integer.parseInt(value);
 
@@ -37,11 +37,11 @@ public class Methods {
         } else if (passengerValue <= 50) {
             factorP = 0.7;
         }//It can be abjusted...Not more than airplane seats!
-        //else {}
             return factorP;
     }
 
-    public static double multiplication(double finalFactor, double factorA, double factorC, double factorS) {
+    public static double multiplication(double factorA, double factorC, double factorS) {
+        double finalFactor;
         Log.d(TAG, "multiplication: ----> FACTOR A " + factorA);
         Log.d(TAG, "multiplication: ----> FACTOR C " + factorC);
         Log.d(TAG, "multiplication: ----> FACTOR S " + factorS);
