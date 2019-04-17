@@ -26,7 +26,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
+import static thanos.skoulopoulos.gr.coappproject.Methods.adultPassengers;
+import static thanos.skoulopoulos.gr.coappproject.Methods.childPassengers;
 import static thanos.skoulopoulos.gr.coappproject.Methods.dateFactor;
+import static thanos.skoulopoulos.gr.coappproject.Methods.elderPassengers;
 import static thanos.skoulopoulos.gr.coappproject.Methods.passengers;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
@@ -54,9 +57,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     double factorA = 0.0;
     double factorS = 0.0;
-    double factorP = 0.0;
+    double factorPc = 0.0;
+    double factorPa = 0.0;
+    double factorPe = 0.0;
     double factorC = 0.0;
-    double finalFactor=0.0;
+    double finalFactorC=0.0;
+    double finalFactorA=0.0;
+    double finalFactorE=0.0;
 //
     TextView childViewText ;
     TextView adultViewText ;
@@ -147,14 +154,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 case R.id.spinner_travel_as:
                     Toast.makeText(MainActivity.this, "Spinner Age", Toast.LENGTH_SHORT).show();
                     switch (position) {
-                        case 0: factorA=0.7;
+                        case 0: factorA=1;
                             Log.d(TAG, "onItemSelected: Individual");
+                            adultNum.setVisibility(View.VISIBLE);
+                            elderNum.setVisibility(View.VISIBLE);
                             break;
-                        case 1:factorA=1;
-                            Log.d(TAG, "onItemSelected: Adult");
+                        case 1:factorA=0.9;
+                            Log.d(TAG, "onItemSelected: Family");
+                            childNum.setVisibility(View.VISIBLE);
+                            adultNum.setVisibility(View.VISIBLE);
+                            elderNum.setVisibility(View.VISIBLE);
                             break;
                         case 2:factorA=0.8;
-                            Log.d(TAG, "onItemSelected: Elder");
+                            Log.d(TAG, "onItemSelected: Group");
+                            childNum.setVisibility(View.VISIBLE);
+                            adultNum.setVisibility(View.VISIBLE);
+                            elderNum.setVisibility(View.VISIBLE);
                             break;
 
                     }
@@ -206,15 +221,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
                case R.id.tv_proceed_button:
-                  // if(calSelection==true && calSelection2==true) {
                        try {
                            factorC = dateFactor(stringDate,stringDate2,month,month2,year,year2,day,day2);
                        } catch (ParseException e) {
                            e.printStackTrace();
                        }
-                  // }
-                   factorP=passengers(passNumber);
-                 finalFactor= Methods.multiplication(factorA,factorC,factorS);
+
+                   factorPc=childPassengers(childNum);
+                   factorPa=adultPassengers(adultNum);
+                   factorPe=elderPassengers(adultNum);
+                 finalFactorC= Methods.multiplicationC(factorA,factorC,factorS,factorPc);
+                   finalFactorA= Methods.multiplicationA(factorA,factorC,factorS,factorPa);
+                   finalFactorE= Methods.multiplicationE(factorA,factorC,factorS,factorPe);
                    Log.d(TAG, "onClick: $$MONEY= "+finalFactor);
                    finalFactorAsString = Double.toString(finalFactor);
                    Intent intent = new Intent(this,ResultActivity.class);

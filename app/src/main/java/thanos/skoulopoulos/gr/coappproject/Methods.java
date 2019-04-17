@@ -42,10 +42,7 @@ public class Methods {
         if(date.after(date2) ){
             Log.d(TAG, "dateFactor: WRONG DATE!!!!!!!!!!!");
         }
-
         else {
-
-
 
             if ((month >= 3 && month <= 9) && (month2 >= 3 && month2 <= 9)) {
                 Log.d(TAG, "SUMMER$%^");
@@ -56,33 +53,62 @@ public class Methods {
             }
         }
         return factorC;
-
     }
 
 
 
-    public static double passengers( EditText childNum,) {
-        double factorP=0.0;
-        String value = passNumber.getText().toString();
-        int passengerValue = Integer.parseInt(value);
+    public static double childPassengers( EditText childNum) {
+        double factorPc=0.0;
+        String childrenString = childNum.getText().toString();
+        int children = Integer.parseInt(childrenString);
+        if(children>0){
+            factorPc =0.9;}else{factorPc=1;}
+        return factorPc;
+        }
+    public static double adultPassengers( EditText adultNum) {
+        double factorPa=0.0;
 
-        if (passengerValue <= 1) {
-            factorP = 1.0;
-        } else if (passengerValue <= 5) {
-            factorP = 0.85;
-        } else if (passengerValue <= 50) {
-            factorP = 0.7;
-        }//It can be abjusted...Not more than airplane seats!
-            return factorP;
+        String adultsString = adultNum.getText().toString();
+        int adults = Integer.parseInt(adultsString);
+        if(adults>0){
+            factorPa =1;}else{factorPa=1;}
+        return factorPa;
+    }
+    public static double elderPassengers( EditText elderNum) {
+        double factorPe=0.0;
+        String eldersString = elderNum.getText().toString();
+        int elders = Integer.parseInt(eldersString);
+        if(elders>0){
+            factorPe =0.85;}else{factorPe=1;}
+        return factorPe;
     }
 
-    public static double multiplication(double factorA, double factorC, double factorS) {
-        double finalFactor;
+
+
+//could have been only one method...I made 3 for felxibility (cause you have other parameters for each type of passenger
+    public static double multiplicationC(double factorA, double factorC, double factorS,double factorPc) {
+        double finalFactorC;
         Log.d(TAG, "multiplication: ----> FACTOR A " + factorA);
         Log.d(TAG, "multiplication: ----> FACTOR C " + factorC);
         Log.d(TAG, "multiplication: ----> FACTOR S " + factorS);
-        finalFactor = factorA * factorC * factorS;
-
-           return finalFactor;
+        Log.d(TAG, "multiplication: ----> FACTOR Pc " + factorPc);
+        finalFactorC = factorA * factorC * factorS * factorPc;
+           return finalFactorC;
+    }
+    public static double multiplicationA(double factorA, double factorC, double factorS,double factorPa) {
+        double finalFactorA;
+        Log.d(TAG, "multiplication: ----> FACTOR A " + factorA);
+        Log.d(TAG, "multiplication: ----> FACTOR C " + factorC);
+        Log.d(TAG, "multiplication: ----> FACTOR Pa " + factorPa);
+        finalFactorA = factorA * factorC * factorS * factorPa;
+        return finalFactorA;
+    }
+    public static double multiplicationE(double factorA, double factorC, double factorS,double factorPe) {
+        double finalFactorE;
+        Log.d(TAG, "multiplication: ----> FACTOR A " + factorA);
+        Log.d(TAG, "multiplication: ----> FACTOR C " + factorC);
+        Log.d(TAG, "multiplication: ----> FACTOR Pe " + factorPe);
+        finalFactorE = factorA * factorC * factorS * factorPe;
+        return finalFactorE;
     }
 }
