@@ -37,10 +37,6 @@ public class Methods {
         Date date2 = sdf.parse(stringDate2);
         Date dateCurrent = sdf.parse(currentDate());
 
-
-        Log.d(TAG, "Departure:----------"+date);
-        Log.d(TAG, "Arrival:========="+date2);
-        Log.d(TAG, "------TODAY DATE:------"+dateCurrent);
         if(date.after(date2) ){
             Log.d(TAG, "dateFactor: WRONG DATE!!!!!!!!!!!");
         }
@@ -60,31 +56,52 @@ public class Methods {
 
 
     public static double childPassengers( EditText childNum) {
-        double factorPc=0.0;
-        int children=0;
-        String childrenString = childNum.getText().toString();
-         children = Integer.parseInt(childrenString);
-        if(children>0){
-            factorPc =0.6;}else{factorPc=0;}
-        return factorPc;
+        double factorPc = 0.0;
+        int children = 0;
+        if (childNum.getText().toString().isEmpty()) {
+            factorPc = 0;
+        } else {
+            String childrenString = childNum.getText().toString();
+            children = Integer.parseInt(childrenString);
+            if (children > 0) {
+                factorPc = 0.6;
+            } else {
+                factorPc = 0;
+            }
         }
+            return factorPc;
+        }
+
     public static double adultPassengers( EditText adultNum) {
         double factorPa=0.0;
         int adults=0;
-        String adultsString = adultNum.getText().toString();
-         adults = Integer.parseInt(adultsString);
-        if(adults>0 )
-        { factorPa =1;}
-            else{factorPa=0;}
+        if(adultNum.getText().toString().isEmpty()){
+            factorPa=0;
+        }else {
+            String adultsString = adultNum.getText().toString();
+            adults = Integer.parseInt(adultsString);
+            if (adults > 0) {
+                factorPa = 1;
+            } else {
+                factorPa = 0;
+            }
+        }
         return factorPa;
     }
     public static double elderPassengers( EditText elderNum) {
         double factorPe=0.0;
         int elders=0;
-        String eldersString = elderNum.getText().toString();
-         elders = Integer.parseInt(eldersString);
-        if(elders>0 ){
-            factorPe =0.85;}else{factorPe=0;}
+        if(elderNum.getText().toString().isEmpty()){
+            factorPe=0;
+        }else {
+            String eldersString = elderNum.getText().toString();
+            elders = Integer.parseInt(eldersString);
+            if (elders > 0) {
+                factorPe = 0.85;
+            } else {
+                factorPe = 0;
+            }
+        }
         return factorPe;
     }
 
@@ -105,12 +122,26 @@ public static Integer peopleNumbersLimiter(String peopleType,int maxPeople, int 
 }
 
 public static int sumPeople( EditText childNum,EditText adultNum,EditText elderNum){
-    String childrenString = childNum.getText().toString();
-    int children = Integer.parseInt(childrenString);
-    String adultsString = adultNum.getText().toString();
-    int adults = Integer.parseInt(adultsString);
-    String eldersString = elderNum.getText().toString();
-    int elders = Integer.parseInt(eldersString);
+    int children;
+    int adults=0;
+    int elders=0;
+    if(childNum.getText().toString().isEmpty()){ children=0;}
+    else {
+        String childrenString = childNum.getText().toString();
+            children = Integer.parseInt(childrenString);
+    }
+    if(adultNum.getText().toString().isEmpty()){ adults=0;}
+    else {
+        String adultsString = adultNum.getText().toString();
+        adults = Integer.parseInt(adultsString);
+    }
+
+    if(elderNum.getText().toString().isEmpty()){ elders=0;}
+    else {
+        String eldersString = elderNum.getText().toString();
+        elders = Integer.parseInt(eldersString);
+    }
+
     int sum = children+adults+elders;
 
 return sum;

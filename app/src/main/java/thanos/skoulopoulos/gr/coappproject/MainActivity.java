@@ -252,7 +252,7 @@ if(verified== true) {
         factorPc = childPassengers(childNum);
     }
     factorPa = adultPassengers(adultNum);
-    factorPe = elderPassengers(adultNum);
+    factorPe = elderPassengers(elderNum);
     finalFactorC = Methods.multiplicationC(factorA, factorC, factorS, factorPc);
     finalFactorA = Methods.multiplicationA(factorA, factorC, factorS, factorPa);
     finalFactorE = Methods.multiplicationE(factorA, factorC, factorS, factorPe);

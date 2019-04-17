@@ -25,13 +25,16 @@ public class ResultActivity extends AppCompatActivity {
         resultElderText=(TextView)findViewById(R.id.total_elder_cash_result);
 
          totalChildMoneyString= getIntent().getStringExtra("total_money_child");
+
          totalAdultMoneyString=getIntent().getStringExtra("total_money_adult");
         totalElderMoneyString=getIntent().getStringExtra("total_money_elder");
 
         Log.d(TAG, "onCreate: $$$$total CHILD money======="+totalChildMoneyString);
         Log.d(TAG, "onCreate: $$$$total ADULT money======="+totalAdultMoneyString);
         Log.d(TAG, "onCreate: $$$$total ELDER money======="+totalElderMoneyString);
-        resultChildText.setText(totalChildMoneyString+" Euro");
+        if (totalChildMoneyString != null) {
+            resultChildText.setText(totalChildMoneyString+" Euro");
+        }
         resultAdultText.setText(totalAdultMoneyString+" Euro");
         resultElderText.setText(totalElderMoneyString+" Euro");
        // Toast.makeText(ResultActivity.this, "MONEY=  "+totalMoneyString, Toast.LENGTH_LONG).show();
