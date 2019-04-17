@@ -30,7 +30,10 @@ import static thanos.skoulopoulos.gr.coappproject.Methods.adultPassengers;
 import static thanos.skoulopoulos.gr.coappproject.Methods.childPassengers;
 import static thanos.skoulopoulos.gr.coappproject.Methods.dateFactor;
 import static thanos.skoulopoulos.gr.coappproject.Methods.elderPassengers;
+import static thanos.skoulopoulos.gr.coappproject.Methods.peopleNumbersLimiter;
+import static thanos.skoulopoulos.gr.coappproject.Methods.sumPeople;
 import static thanos.skoulopoulos.gr.coappproject.Methods.verification;
+//import static thanos.skoulopoulos.gr.coappproject.Methods.verification;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
@@ -43,6 +46,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static final String TAG = "MainActivity";
     public int selection = 0;
     int maxPeople=0;
+    int maxAvailableSeats = 100;
+    int registeredPeople = 0;
     boolean calSelection=false;
      boolean calSelection2=false;
      boolean verified = false;
@@ -60,7 +65,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int day2;
     int month2;
     int year2;
-
+int children=0;
+int adults = 0;
+int elders= 0;
     double factorA = 0.0;
     double factorS = 0.0;
     double factorPc = 0.0;
@@ -237,7 +244,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                            e.printStackTrace();
                        }
 
-                       verified = verification(calSelection,calSelection2,factorA,maxPeople);
+                        maxPeople= peopleNumbersLimiter(peopleType,maxPeople,maxAvailableSeats);
+                       registeredPeople = sumPeople(childNum,adultNum,elderNum);
+                       verified = verification(calSelection,calSelection2,maxPeople,registeredPeople);
 if(verified== true) {
     if (peopleType=="Family" || peopleType=="Group") {
         factorPc = childPassengers(childNum);
@@ -247,7 +256,7 @@ if(verified== true) {
     finalFactorC = Methods.multiplicationC(factorA, factorC, factorS, factorPc);
     finalFactorA = Methods.multiplicationA(factorA, factorC, factorS, factorPa);
     finalFactorE = Methods.multiplicationE(factorA, factorC, factorS, factorPe);
-    Log.d(TAG, "onClick: $$CHILD_MONEY= " + finalFactorC);
+
     finalFactorAsStringC = Double.toString(finalFactorC);
     finalFactorAsStringA = Double.toString(finalFactorA);
     finalFactorAsStringE = Double.toString(finalFactorE);
@@ -257,7 +266,7 @@ if(verified== true) {
     intent.putExtra("total_money_adult", finalFactorAsStringA);
     intent.putExtra("total_money_elder", finalFactorAsStringE);
     startActivity(intent);
-}
+}else{ Toast.makeText(MainActivity.this, "Insert correct number of people", Toast.LENGTH_SHORT).show();}
                 break;
 
         }

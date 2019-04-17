@@ -13,7 +13,9 @@ import java.util.TimeZone;
 
 import static thanos.skoulopoulos.gr.coappproject.MainActivity.TAG;
 
+
 public class Methods {
+
 
     public static String currentDate(){
         String stringCurrDate="";
@@ -59,41 +61,71 @@ public class Methods {
 
     public static double childPassengers( EditText childNum) {
         double factorPc=0.0;
+        int children=0;
         String childrenString = childNum.getText().toString();
-        int children = Integer.parseInt(childrenString);
+         children = Integer.parseInt(childrenString);
         if(children>0){
-            factorPc =0.6;}else{factorPc=1;}
+            factorPc =0.6;}else{factorPc=0;}
         return factorPc;
         }
     public static double adultPassengers( EditText adultNum) {
         double factorPa=0.0;
-
+        int adults=0;
         String adultsString = adultNum.getText().toString();
-        int adults = Integer.parseInt(adultsString);
-        if(adults>0){
-            factorPa =1;}else{factorPa=1;}
+         adults = Integer.parseInt(adultsString);
+        if(adults>0 )
+        { factorPa =1;}
+            else{factorPa=0;}
         return factorPa;
     }
     public static double elderPassengers( EditText elderNum) {
         double factorPe=0.0;
+        int elders=0;
         String eldersString = elderNum.getText().toString();
-        int elders = Integer.parseInt(eldersString);
-        if(elders>0){
-            factorPe =0.85;}else{factorPe=1;}
+         elders = Integer.parseInt(eldersString);
+        if(elders>0 ){
+            factorPe =0.85;}else{factorPe=0;}
         return factorPe;
     }
 
+public static Integer peopleNumbersLimiter(String peopleType,int maxPeople, int maxAvailableSeats){
+  switch (peopleType){
+      case "Individual":
+          maxPeople = maxAvailableSeats;
+          break;
+      case "Family":
+           maxPeople = 8;
+          break;
+      case "Group":
+          maxPeople = maxAvailableSeats/2;// its up to airline
+          break;
 
-public static boolean verification(boolean calSelection,boolean calSelection2,int maxPeople){
+  }
+     return maxPeople;
+}
+
+public static int sumPeople( EditText childNum,EditText adultNum,EditText elderNum){
+    String childrenString = childNum.getText().toString();
+    int children = Integer.parseInt(childrenString);
+    String adultsString = adultNum.getText().toString();
+    int adults = Integer.parseInt(adultsString);
+    String eldersString = elderNum.getText().toString();
+    int elders = Integer.parseInt(eldersString);
+    int sum = children+adults+elders;
+
+return sum;
+}
+
+public static boolean verification(boolean calSelection,boolean calSelection2,int maxPeople,int registeredPeople){
+        boolean value=false;
         if(calSelection==true && calSelection2 == true){
-
+           if(registeredPeople>0 && registeredPeople<=maxPeople)
+         value= true;
         }else{
 
+            value=false;
         }
-
-
-
-
+return value;
 }
 //could have been only one method...I made 3 for felxibility (cause you have other parameters for each type of passenger
     public static double multiplicationC(double factorA, double factorC, double factorS,double factorPc) {
