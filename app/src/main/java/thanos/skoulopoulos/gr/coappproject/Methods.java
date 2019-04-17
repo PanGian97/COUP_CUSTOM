@@ -3,27 +3,60 @@ package thanos.skoulopoulos.gr.coappproject;
 import android.util.Log;
 import android.widget.EditText;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
+
 import static thanos.skoulopoulos.gr.coappproject.MainActivity.TAG;
 
 public class Methods {
 
-    public static double dateFactor(int month, int month2) {
+    public static String currentDate(){
+        String stringCurrDate="";
+        Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+        int dayCurrent = calendar.get(calendar.DAY_OF_MONTH);
+        int monthCurrent = calendar.get(calendar.MONTH)+1;
+        int yearCurrent = calendar.get(calendar.YEAR);
+
+        return  stringCurrDate = dayCurrent + "/" + monthCurrent +"/" + yearCurrent;
+    }
+
+
+
+    public static double dateFactor(String stringDate,String stringDate2,int month, int month2,int year,int year2,int day,int day2) throws ParseException {
         double factorC =0.0;
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
 
-//            Log.d(TAG, "Departure: %day: " + day + " month: " + month + " year " + year);
-//            Log.d(TAG, "Arrival: %day2: " + day2 + " month2: " + month2 + " year2 " + year2);
+        Date date = sdf.parse(stringDate);
+        Date date2 = sdf.parse(stringDate2);
+        Date dateCurrent = sdf.parse(currentDate());
 
-        if ((month >= 3 && month <= 9) && (month2 >= 3 && month2 <= 9)) {
+
+        Log.d(TAG, "Departure:----------"+date);
+        Log.d(TAG, "Arrival:========="+date2);
+        Log.d(TAG, "------TODAY DATE:------"+dateCurrent);
+        if(date.after(date2) ){
+            Log.d(TAG, "dateFactor: WRONG DATE!!!!!!!!!!!");
+        }
+
+        else {
+
+
+
+            if ((month >= 3 && month <= 9) && (month2 >= 3 && month2 <= 9)) {
                 Log.d(TAG, "SUMMER$%^");
                 factorC = 1.2;
             } else {
                 Log.d(TAG, "WINTER)))))");
                 factorC = 1.0;
             }
-
+        }
         return factorC;
 
     }
+
 
     public static double passengers( EditText passNumber) {
         double factorP=0.0;

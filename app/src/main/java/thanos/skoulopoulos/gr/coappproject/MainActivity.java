@@ -17,6 +17,13 @@ import android.widget.TextView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
+
 import static thanos.skoulopoulos.gr.coappproject.Methods.dateFactor;
 import static thanos.skoulopoulos.gr.coappproject.Methods.passengers;
 
@@ -31,8 +38,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public int selection = 0;
     boolean calSelection=false;
      boolean calSelection2=false;
-    String date = "";
-    String date2 = "";
+    String stringDate = "";
+    String stringDate2 = "";
+    String stringCurrDate="";
     String finalFactorAsString="";
 
     int day;
@@ -103,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+
     OnItemSelectedListener spinListener = new OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -169,7 +178,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
                case R.id.proceed_button:
-
+                  // if(calSelection==true && calSelection2==true) {
+                       try {
+                           factorC = dateFactor(stringDate,stringDate2,month,month2,year,year2,day,day2);
+                       } catch (ParseException e) {
+                           e.printStackTrace();
+                       }
+                  // }
                    factorP=passengers(passNumber);
                  finalFactor= Methods.multiplication(factorA,factorC,factorS);
                    Log.d(TAG, "onClick: $$MONEY= "+finalFactor);
@@ -185,27 +200,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onDateSet(DatePicker datePicker, int day, int month, int year) {
+    public void onDateSet(DatePicker datePicker, int day, int month, int year)  {
 
         switch (selection){
             case 1 :
-        date = day + "/" + month +"/" + year;
-        departureDate.setText("Departure Date: " + date);
+
+        stringDate = day + "/" + month +"/" + year;
+
+        departureDate.setText("Departure Date: " + stringDate);
                this.day = day;
                 this.month = month;
                 this.year = year;
                 break;
             case 2 :
-                date2 = day + "/" + month +"/" + year;
-                arrivalDate.setText("Arrival Date: " + date2);
+                stringDate2 = day + "/" + month +"/" + year;
+                arrivalDate.setText("Arrival Date: " + stringDate2);
                 day2 = day;
                 month2 = month;
                 year2 = year;
                 break;
     }
-        if(calSelection==true && calSelection2==true)
-            //dateFactor(month,month2);
-        factorC = dateFactor(month,month2);
+
 
 }
 
