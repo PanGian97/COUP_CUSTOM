@@ -10,9 +10,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Toast;
@@ -55,25 +57,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     double factorP = 0.0;
     double factorC = 0.0;
     double finalFactor=0.0;
-   // double factorT = 0.0;
+//
+    TextView childViewText ;
+    TextView adultViewText ;
+    TextView elderViewText;
+     EditText childNum;
+     EditText adultNum;
+     EditText elderNum;
+    //
+
     private Spinner ageSpinner;
-    private static final String[] agePaths = {"child", "adult", "senior"};
+    private static final String[] agePaths = {"Individual", "Family", "Group"};
     private Spinner seatSpinner;
     private static final String[] seatPaths = {"basic", "premium", "platinum"};
-    //private Spinner paySpinner;
-    //private static final String[] payPaths = {"Domestic, wire transfer, credit-card"};
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main2);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
+        //
+        final TextView tvTypeOfFlight = findViewById(R.id.tv_type_of_flight);
 
-        passNumber =(EditText)findViewById(R.id.pass_number);
-        proceedButton=(Button)findViewById(R.id.proceed_button);
+        final Switch layoutSwitch = (Switch) findViewById(R.id.switch1);
+        //
+        //passNumber =(EditText)findViewById(R.id.pass_number);
+         childViewText = (TextView)findViewById(R.id.tv_children_text);
+         adultViewText = (TextView)findViewById(R.id.tv_adult_text);
+         elderViewText = (TextView)findViewById(R.id.tv_elder_text);
+        childNum = (EditText) findViewById(R.id.tv_children);
+        adultNum = (EditText) findViewById(R.id.tv_adult);
+        elderNum = (EditText)findViewById(R.id.tv_elder);
+
+        proceedButton=(Button)findViewById(R.id.tv_proceed_button);
         departureDate = findViewById(R.id.tv_departure_date);
         departureDate.setOnClickListener(this);
         arrivalDate = findViewById(R.id.tv_arrival_date);
@@ -82,8 +102,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         ageSpinner = (Spinner) findViewById(R.id.spinner_travel_as);
-        seatSpinner = (Spinner) findViewById(R.id.spinner_seat);
-        //paySpinner= (Spinner) findViewById(R.id.spinner_pay);
+        seatSpinner = (Spinner) findViewById(R.id.spinner_membership);
+
 
         ArrayAdapter<String>adapterA = new ArrayAdapter<String>(MainActivity.this,
                 android.R.layout.simple_spinner_item,agePaths);
@@ -97,30 +117,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         adapterS.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         seatSpinner.setAdapter(adapterS);
 
-//        ArrayAdapter<String>adapterP = new ArrayAdapter<String>(MainActivity.this,
-//                android.R.layout.simple_spinner_item,payPaths);
-//
-//        adapterP.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        paySpinner.setAdapter(adapterP);
 
         ageSpinner.setOnItemSelectedListener(spinListener);
         seatSpinner.setOnItemSelectedListener(spinListener);
-        //paySpinner.setOnItemSelectedListener(spinListener);
 
 
 
+        layoutSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked) {
+                    layoutSwitch.setTextOn("Πτηση Εξωτερικού");
+                    String switchOn = layoutSwitch.getTextOn().toString();
+                    tvTypeOfFlight.setText(switchOn);
+
+                } else {
+                    layoutSwitch.setTextOff("Πτήση Εσωτερικού");
+                    String switchOff = layoutSwitch.getTextOff().toString();
+                    tvTypeOfFlight.setText(switchOff);
+                }
+            }
+        });
     }
-
 
     OnItemSelectedListener spinListener = new OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             switch (parent.getId()) {
                 case R.id.spinner_travel_as:
-                    Toast.makeText(MainActivity.this, "Spinner Age", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.this, "Spinner Age", Toast.LENGTH_SHORT).show();
                     switch (position) {
                         case 0: factorA=0.7;
-                            Log.d(TAG, "onItemSelected: Child");
+                            Log.d(TAG, "onItemSelected: Individual");
                             break;
                         case 1:factorA=1;
                             Log.d(TAG, "onItemSelected: Adult");
@@ -131,8 +159,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     }
                     break;
-                case R.id.spinner_seat:
-                    Toast.makeText(MainActivity.this, "Spinner Seat", Toast.LENGTH_LONG).show();
+                case R.id.spinner_membership:
+                    Toast.makeText(MainActivity.this, "Spinner Seat", Toast.LENGTH_SHORT).show();
                     switch (position) {
                         case 0: factorS=300;
                             Log.d(TAG, "onItemSelected: Normal");
@@ -177,7 +205,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
 
-               case R.id.proceed_button:
+               case R.id.tv_proceed_button:
                   // if(calSelection==true && calSelection2==true) {
                        try {
                            factorC = dateFactor(stringDate,stringDate2,month,month2,year,year2,day,day2);
@@ -201,7 +229,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onDateSet(DatePicker datePicker, int day, int month, int year)  {
-
+     month++;
         switch (selection){
             case 1 :
 

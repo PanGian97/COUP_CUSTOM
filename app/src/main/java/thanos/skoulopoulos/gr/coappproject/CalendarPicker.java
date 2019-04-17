@@ -30,7 +30,7 @@ public class CalendarPicker {
 
         Calendar calendarDeparture = Calendar.getInstance();
         int year = calendarDeparture.get(Calendar.YEAR);
-        int month = calendarDeparture.get(Calendar.MONTH)+1;
+        int month = calendarDeparture.get(Calendar.MONTH);
         int day = calendarDeparture.get(Calendar.DAY_OF_MONTH);
 
 

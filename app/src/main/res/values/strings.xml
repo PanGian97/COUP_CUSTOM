@@ -6,4 +6,27 @@
     <string name="date_of_departure">Date of Departure</string>
     <string name="ticket_caclulator">Ticket Caclulator</string>
     <string name="ondatesetdate">onDateSet:date</string>
+
+    <string name="ticket_price">Tιμολογηση Πτησης</string>
+    <string name="ptιsι_exoterikou">Πτηση εξωτερικού</string>
+    <string name="ptisi_esoterikou">Πτηση εσωτερικου</string>
+    <string name="departure_date">Departure Date:</string>
+    <string name="departure">Αναχώρηση:</string>
+    <string name="arrival">Άφιξη:</string>
+    <string name="travel_as">Travel as:</string>
+    <string name="children">Children</string>
+    <string name="select">Επίλεξε</string>
+
+    <!--<string-array name="travel_as">-->
+        <!--<item>Επίλεξε</item>-->
+        <!--<item>individual</item>-->
+        <!--<item>family</item>-->
+        <!--<item>group</item>-->
+    <!--</string-array>-->
+
+    <!--<string-array name="membership_type">-->
+        <!--<item>basic</item>-->
+        <!--<item>premium</item>-->
+        <!--<item>platinum</item>-->
+    <!--</string-array>-->
 </resources>

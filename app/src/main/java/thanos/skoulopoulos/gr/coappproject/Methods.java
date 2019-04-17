@@ -1,7 +1,9 @@
 package thanos.skoulopoulos.gr.coappproject;
 
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,7 +19,7 @@ public class Methods {
         String stringCurrDate="";
         Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
         int dayCurrent = calendar.get(calendar.DAY_OF_MONTH);
-        int monthCurrent = calendar.get(calendar.MONTH)+1;
+        int monthCurrent = calendar.get(calendar.MONTH);
         int yearCurrent = calendar.get(calendar.YEAR);
 
         return  stringCurrDate = dayCurrent + "/" + monthCurrent +"/" + yearCurrent;
@@ -58,7 +60,8 @@ public class Methods {
     }
 
 
-    public static double passengers( EditText passNumber) {
+
+    public static double passengers( EditText childNum,) {
         double factorP=0.0;
         String value = passNumber.getText().toString();
         int passengerValue = Integer.parseInt(value);
