@@ -30,7 +30,8 @@ import static thanos.skoulopoulos.gr.coappproject.Methods.adultPassengers;
 import static thanos.skoulopoulos.gr.coappproject.Methods.childPassengers;
 import static thanos.skoulopoulos.gr.coappproject.Methods.dateFactor;
 import static thanos.skoulopoulos.gr.coappproject.Methods.elderPassengers;
-import static thanos.skoulopoulos.gr.coappproject.Methods.passengers;
+import static thanos.skoulopoulos.gr.coappproject.Methods.verification;
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
 
@@ -41,12 +42,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public DatePickerDialog.OnDateSetListener dateSetListener;
     public static final String TAG = "MainActivity";
     public int selection = 0;
+    int maxPeople=0;
     boolean calSelection=false;
      boolean calSelection2=false;
+     boolean verified = false;
     String stringDate = "";
     String stringDate2 = "";
     String stringCurrDate="";
-    String finalFactorAsString="";
+    String finalFactorAsStringC="";
+    String finalFactorAsStringA="";
+    String finalFactorAsStringE="";
+    String peopleType="";
 
     int day;
     int month;
@@ -155,17 +161,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Toast.makeText(MainActivity.this, "Spinner Age", Toast.LENGTH_SHORT).show();
                     switch (position) {
                         case 0: factorA=1;
+                            peopleType = "Individual";
                             Log.d(TAG, "onItemSelected: Individual");
+                            childNum.setVisibility(View.INVISIBLE);
                             adultNum.setVisibility(View.VISIBLE);
                             elderNum.setVisibility(View.VISIBLE);
                             break;
                         case 1:factorA=0.9;
+                            peopleType = "Family";
                             Log.d(TAG, "onItemSelected: Family");
                             childNum.setVisibility(View.VISIBLE);
                             adultNum.setVisibility(View.VISIBLE);
                             elderNum.setVisibility(View.VISIBLE);
                             break;
                         case 2:factorA=0.8;
+                            peopleType = "Group";
                             Log.d(TAG, "onItemSelected: Group");
                             childNum.setVisibility(View.VISIBLE);
                             adultNum.setVisibility(View.VISIBLE);
@@ -227,18 +237,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                            e.printStackTrace();
                        }
 
-                   factorPc=childPassengers(childNum);
-                   factorPa=adultPassengers(adultNum);
-                   factorPe=elderPassengers(adultNum);
-                 finalFactorC= Methods.multiplicationC(factorA,factorC,factorS,factorPc);
-                   finalFactorA= Methods.multiplicationA(factorA,factorC,factorS,factorPa);
-                   finalFactorE= Methods.multiplicationE(factorA,factorC,factorS,factorPe);
-                   Log.d(TAG, "onClick: $$MONEY= "+finalFactor);
-                   finalFactorAsString = Double.toString(finalFactor);
-                   Intent intent = new Intent(this,ResultActivity.class);
-                   intent.putExtra("total_money",finalFactorAsString);
-                   startActivity(intent);
-
+                       verified = verification(calSelection,calSelection2,factorA,maxPeople);
+if(verified== true) {
+    if (peopleType=="Family" || peopleType=="Group") {
+        factorPc = childPassengers(childNum);
+    }
+    factorPa = adultPassengers(adultNum);
+    factorPe = elderPassengers(adultNum);
+    finalFactorC = Methods.multiplicationC(factorA, factorC, factorS, factorPc);
+    finalFactorA = Methods.multiplicationA(factorA, factorC, factorS, factorPa);
+    finalFactorE = Methods.multiplicationE(factorA, factorC, factorS, factorPe);
+    Log.d(TAG, "onClick: $$CHILD_MONEY= " + finalFactorC);
+    finalFactorAsStringC = Double.toString(finalFactorC);
+    finalFactorAsStringA = Double.toString(finalFactorA);
+    finalFactorAsStringE = Double.toString(finalFactorE);
+    Intent intent = new Intent(this, ResultActivity.class);
+    if (peopleType=="Family" || peopleType=="Group")
+        intent.putExtra("total_money_child", finalFactorAsStringC);
+    intent.putExtra("total_money_adult", finalFactorAsStringA);
+    intent.putExtra("total_money_elder", finalFactorAsStringE);
+    startActivity(intent);
+}
                 break;
 
         }

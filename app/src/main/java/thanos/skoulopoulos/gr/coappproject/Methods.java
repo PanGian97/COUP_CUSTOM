@@ -62,7 +62,7 @@ public class Methods {
         String childrenString = childNum.getText().toString();
         int children = Integer.parseInt(childrenString);
         if(children>0){
-            factorPc =0.9;}else{factorPc=1;}
+            factorPc =0.6;}else{factorPc=1;}
         return factorPc;
         }
     public static double adultPassengers( EditText adultNum) {
@@ -84,7 +84,17 @@ public class Methods {
     }
 
 
+public static boolean verification(boolean calSelection,boolean calSelection2,int maxPeople){
+        if(calSelection==true && calSelection2 == true){
 
+        }else{
+
+        }
+
+
+
+
+}
 //could have been only one method...I made 3 for felxibility (cause you have other parameters for each type of passenger
     public static double multiplicationC(double factorA, double factorC, double factorS,double factorPc) {
         double finalFactorC;
