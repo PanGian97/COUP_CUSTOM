@@ -66,19 +66,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.853" />
-
-
-    <ImageButton
+    <Button
         android:id="@+id/button"
-        android:layout_width="100dp"
-        android:layout_height="67dp"
+        android:textColor="@color/colorPrimaryOpen"
+        android:drawableRight="@drawable/icon_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="28dp"
         android:layout_marginBottom="16dp"
-        android:src="@drawable/paybutton"
-        android:scaleType="fitCenter"
         android:text="Pay"
-        android:textColor="@color/colorPrimaryOpen"
-        android:backgroundTint="@color/colorPrimaryDark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
