@@ -38,6 +38,7 @@ public class Methods {
         Date dateCurrent = sdf.parse(currentDate());
 
         if(date.after(date2) ){
+            factorC=0;
             Log.d(TAG, "dateFactor: WRONG DATE!!!!!!!!!!!");
         }
         else {
@@ -147,11 +148,12 @@ public static int sumPeople( EditText childNum,EditText adultNum,EditText elderN
 return sum;
 }
 
-public static boolean verification(boolean calSelection,boolean calSelection2,int maxPeople,int registeredPeople){
+public static boolean verification(boolean calSelection,boolean calSelection2,int maxPeople,int registeredPeople,double factorC){
         boolean value=false;
         if(calSelection==true && calSelection2 == true){
            if(registeredPeople>0 && registeredPeople<=maxPeople)
          value= true;
+            if(factorC==0){value=false;} //if the arrival date is before departure (factorCalendar)
         }else{
 
             value=false;

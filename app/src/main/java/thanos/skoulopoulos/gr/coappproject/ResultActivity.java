@@ -4,6 +4,10 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -11,7 +15,7 @@ import java.util.List;
 
 public class ResultActivity extends AppCompatActivity {
     private static final String TAG = "ResultActivity";
-    private ViewPager screenPaper;
+    private ViewPager screenPager;
     IntroViewPagerAdapter introViewPagerAdapter;
 
     TextView resultChildText;
@@ -21,6 +25,7 @@ public class ResultActivity extends AppCompatActivity {
     String totalChildMoneyString="";
     String totalAdultMoneyString="";
     String totalElderMoneyString="";
+
     List<ScreenItem> resultList = new ArrayList<>();
 
     @Override
@@ -29,17 +34,22 @@ public class ResultActivity extends AppCompatActivity {
         setContentView(R.layout.activity_result);
 
 
-        resultList.add(new ScreenItem("Credit Card","",R.drawable.card));
-        resultList.add(new ScreenItem("Money","",R.drawable.money));
-        resultList.add(new ScreenItem("Bitcoin","",R.drawable.bitcoin));
 
-        screenPaper = findViewById(R.id.screen_viewpager);
+        resultList.add(new ScreenItem("Credit Card"," ",R.drawable.card,"Credit card number"," ","",R.drawable.airport));
+        resultList.add(new ScreenItem("Money"," ",R.drawable.money," ",null,"You will pay on airport",R.drawable.card16));
+        resultList.add(new ScreenItem("Bitcoin"," ",R.drawable.bitcoin,"",null,"Coming soon...",R.drawable.bitcoin_pay));
+
+
+        screenPager = findViewById(R.id.screen_viewpager);
         introViewPagerAdapter  = new IntroViewPagerAdapter(this,resultList);
-        screenPaper.setAdapter(introViewPagerAdapter);
+        screenPager.setAdapter(introViewPagerAdapter);
 
         resultChildText=(TextView)findViewById(R.id.total_child_cash_result);
         resultAdultText=(TextView)findViewById(R.id.total_adult_cash_result);
         resultElderText=(TextView)findViewById(R.id.total_elder_cash_result);
+
+
+
 
          totalChildMoneyString= getIntent().getStringExtra("total_money_child");
 
@@ -56,4 +66,5 @@ public class ResultActivity extends AppCompatActivity {
         resultElderText.setText("Elder Ticket price"+totalElderMoneyString+" Euro");
        // Toast.makeText(ResultActivity.this, "MONEY=  "+totalMoneyString, Toast.LENGTH_LONG).show();
     }
+
 }

@@ -246,7 +246,7 @@ int elders= 0;
 
                         maxPeople= peopleNumbersLimiter(peopleType,maxPeople,maxAvailableSeats);
                        registeredPeople = sumPeople(childNum,adultNum,elderNum);
-                       verified = verification(calSelection,calSelection2,maxPeople,registeredPeople);
+                       verified = verification(calSelection,calSelection2,maxPeople,registeredPeople,factorC);
 if(verified== true) {
     if (peopleType=="Family" || peopleType=="Group") {
         factorPc = childPassengers(childNum);

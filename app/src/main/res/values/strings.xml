@@ -16,6 +16,7 @@
     <string name="travel_as">Travel as:</string>
     <string name="children">Children</string>
     <string name="select">Επίλεξε</string>
+    <string name="cash_desc">You will pay for the tickets price in the Airport</string>
 
     <!--<string-array name="travel_as">-->
         <!--<item>Επίλεξε</item>-->
